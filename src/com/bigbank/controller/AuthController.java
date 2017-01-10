@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.bigbank.util.AuthUtil;
+import com.bigbank.util.Logger;
 
 @WebServlet("/authenticate")
 public class AuthController extends HttpServlet {
@@ -25,13 +26,13 @@ public class AuthController extends HttpServlet {
 		String userName = request.getParameter("userName");
 		String passWord = request.getParameter("passWord");
 		
-		System.out.println("<AuthController>: Authenticating: uid [" + userName + "] pwd [" + passWord + "]");
+		Logger.log("<AuthController>: Authenticating: uid [" + userName + "] pwd [" + passWord + "]");
 		
 		String contextPah = request.getContextPath();
 		
 		String nextURL = contextPah;
 		if(validCredentials(userName, passWord)) {
-			System.out.println("<AuthController>: Authenticated, set logged in state" );
+			Logger.log("<AuthController>: Authenticated, set logged in state" );
 			AuthUtil.setLoggedIn(userName, request, response);
 			nextURL += "/secure/achome";
 		}
@@ -43,5 +44,4 @@ public class AuthController extends HttpServlet {
 		return ((uid != null) && uid.matches(UID_REGEX)
 			&&  (pwd != null) && pwd.matches(PWD_REGEX));
 	}
-	
 }

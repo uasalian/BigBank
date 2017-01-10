@@ -24,6 +24,10 @@ public class ConfigController extends BasicController {
         super();
     }
     
+    static {
+        configMap.put(VERYFY_CHANGES_ENABLED, "yes");  // verify profile change by default
+    }
+    
     public static String getConfig(String s) {
     	return configMap.get(s);
     }

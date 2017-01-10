@@ -10,7 +10,7 @@
 	Object ppObj = request.getAttribute(com.bigbank.util.SessionUtil.ATTRIB_PERSONAL_PROFILE);
 	PersonalProfileVO ppVO = (ppObj == null) ? new PersonalProfileVO() : (PersonalProfileVO) ppObj;
 	Address address = ppVO.getAddress();
-	System.out.println("In Personal Profile jsp: ppVO: \n" + ppVO);
+	com.bigbank.util.Logger.log("In Personal Profile jsp: ppVO: \n" + ppVO);
 %>
 <html>
 <body>

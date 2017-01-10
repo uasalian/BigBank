@@ -26,10 +26,10 @@ public class AuthFilter implements Filter {
 		HttpServletResponse resp = (HttpServletResponse) response;
 		
 		if (isLoggedIn(req)) {
-			System.out.println("AuthFilter: session cookie found, forwarding...");
+			Logger.log("<AuthFilter>: session cookie found, forwarding...");
 			chain.doFilter(request, response);				
 		} else {
-			System.out.println("AuthFilter: session cookie NOT found, login please...");
+			Logger.log("<AuthFilter>: session cookie NOT found, login please...");
 			resp.sendRedirect(req.getContextPath());
 		}		
 	}
@@ -48,7 +48,7 @@ public class AuthFilter implements Filter {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Error in AuthFilter:" + e.getMessage());
+			Logger.log("<AuthFilter>: Error in AuthFilter:" + e.getMessage());
 		}
 
 		return false;

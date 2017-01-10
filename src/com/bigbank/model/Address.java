@@ -1,5 +1,7 @@
 package com.bigbank.model;
 
+import com.bigbank.util.Logger;
+
 public class Address {
 
 	public static final String REGEX_STREET = "[1-9]\\d{0,4}\\s[a-zA-Z]([a-zA-Z]*|\\.|\\s)+";
@@ -77,7 +79,7 @@ public class Address {
 		};
 		for (int i = 0; i<streets.length; i++) {
 			add.setStreet(streets[i]);
-			System.out.println(add.getStreet() + " is street? " + add.isStreetValid());
+			Logger.log(add.getStreet() + " is street? " + add.isStreetValid());
 		}
 	}
 	public static void validateCity(Address add) {

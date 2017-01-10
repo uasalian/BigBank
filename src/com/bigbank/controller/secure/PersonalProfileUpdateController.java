@@ -1,6 +1,7 @@
 package com.bigbank.controller.secure;
 
 import java.io.IOException;
+import com.bigbank.util.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,7 +28,7 @@ public class PersonalProfileUpdateController extends BasicController {
 		Object obj = session.getAttribute(SessionUtil.ATTRIB_EDITED_PERSONAL_PROFILE);
 
 		if (obj == null) {
-			System.out.println("PersonalProfileUpdateController:  Object in session is null");
+			Logger.log("PersonalProfileUpdateController:  Object in session is null");
 			forward("/secure/jsp/techDiff.jsp", request, response);
 		}
 		

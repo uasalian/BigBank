@@ -1,5 +1,7 @@
 package com.bigbank.model;
 
+import com.bigbank.util.Logger;
+
 public class PersonalProfileVO {
 	private Address address;
 	private String phoneNbr, emailAddres;
@@ -71,7 +73,7 @@ public class PersonalProfileVO {
 		};
 		for (int i = 0; i<emails.length; i++) {
 			pp.setEmailAddres(emails[i]);
-			System.out.println(pp.getEmailAddres() + " is valid Email? " + pp.isEmailAddressValid());
+			Logger.log(pp.getEmailAddres() + " is valid Email? " + pp.isEmailAddressValid());
 		}
 	}
 	
@@ -86,7 +88,7 @@ public class PersonalProfileVO {
 		};
 		for (int i=0; i<phones.length; i++) {
 			pp.setPhoneNbr(phones[i]);
-			System.out.println(pp.getPhoneNbr() + " is valid phone? " + pp.isPhoneNbrValid());
+			Logger.log(pp.getPhoneNbr() + " is valid phone? " + pp.isPhoneNbrValid());
 		}
 	}
 }

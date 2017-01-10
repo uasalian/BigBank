@@ -12,6 +12,7 @@ import com.bigbank.controller.BasicController;
 import com.bigbank.controller.ConfigController;
 import com.bigbank.model.Address;
 import com.bigbank.model.PersonalProfileVO;
+import com.bigbank.util.Logger;
 import com.bigbank.util.SessionUtil;
 
 @WebServlet("/secure/personalProfileVerify")
@@ -31,10 +32,10 @@ public class PersonalProfileVerifyController extends BasicController {
 			String tokenFromForm = request.getParameter("csrfToken");
 			
 			if ((tokenInSession != null) && tokenInSession.equals(tokenFromForm)) {
-				System.out.println("<PersonalProfileVerifyController>: CSRF token verified ...");
+				Logger.log("<PersonalProfileVerifyController>: CSRF token verified ...");
 				session.setAttribute(SessionUtil.ATTRIB_CSRF_TOKEN, null); // remove used token
 			} else {
-				System.out.println("<PersonalProfileVerifyController>: CSRF token verification failed: In Session [" +
+				Logger.log("<PersonalProfileVerifyController>: CSRF token verification failed: In Session [" +
 					tokenInSession + "] from form [" + tokenFromForm + "]");
 				session.setAttribute(SessionUtil.ATTRIB_EDITED_PERSONAL_PROFILE, null);
 				forward("/secure/achome", request, response);
@@ -54,10 +55,10 @@ public class PersonalProfileVerifyController extends BasicController {
 		
 		session.setAttribute(SessionUtil.ATTRIB_EDITED_PERSONAL_PROFILE, ppEdtVO);
 		
-		System.out.println("New Profile :\n" + ppEdtVO);
+		Logger.log("<PersonalProfileVerifyController> New Profile :\n" + ppEdtVO);
 
 		if (!ppEdtVO.isValid()) {			
-			System.out.println("PersonalProfileVerifyController: PP EditVO is not valid, back to edit");
+			Logger.log("PersonalProfileVerifyController: PP EditVO is not valid, back to edit");
 			forward("/secure/jsp/personalProfileEdit.jsp", request, response);
 		} else {
 			String config = ConfigController.getConfig(ConfigController.VERYFY_CHANGES_ENABLED);
