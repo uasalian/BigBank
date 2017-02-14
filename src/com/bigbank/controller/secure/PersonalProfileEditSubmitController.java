@@ -15,32 +15,18 @@ import com.bigbank.model.PersonalProfileVO;
 import com.bigbank.util.Logger;
 import com.bigbank.util.SessionUtil;
 
-@WebServlet("/secure/personalProfileVerify")
-public class PersonalProfileVerifyController extends BasicController {
+@WebServlet("/secure/personalProfileEditSubmit")
+public class PersonalProfileEditSubmitController extends BasicController {
 	private static final long serialVersionUID = 1L;
 	
-    public PersonalProfileVerifyController() {
+    public PersonalProfileEditSubmitController() {
         super();
     }
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		
-		if(ConfigController.isEnabled(ConfigController.CSRF_TOKEN_VERIFY_ENABLED)) {
-			Object obj = session.getAttribute(SessionUtil.ATTRIB_CSRF_TOKEN);
-			String tokenInSession = (obj == null) ? null : obj.toString();
-			String tokenFromForm = request.getParameter("csrfToken");
-			
-			if ((tokenInSession != null) && tokenInSession.equals(tokenFromForm)) {
-				Logger.log("<PersonalProfileVerifyController>: CSRF token verified ...");
-				session.setAttribute(SessionUtil.ATTRIB_CSRF_TOKEN, null); // remove used token
-			} else {
-				Logger.log("<PersonalProfileVerifyController>: CSRF token verification failed: In Session [" +
-					tokenInSession + "] from form [" + tokenFromForm + "]");
-				session.setAttribute(SessionUtil.ATTRIB_EDITED_PERSONAL_PROFILE, null);
-				forward("/secure/achome", request, response);
-			}
-		}
+		if(!SessionUtil.isCSRFTokenValid(request)) forward("/secure/achome", request, response);
 		
 		Address address = new Address();		
 		address.setStreet(request.getParameter("street"));
@@ -55,14 +41,15 @@ public class PersonalProfileVerifyController extends BasicController {
 		
 		session.setAttribute(SessionUtil.ATTRIB_EDITED_PERSONAL_PROFILE, ppEdtVO);
 		
-		Logger.log("<PersonalProfileVerifyController> New Profile :\n" + ppEdtVO);
+		Logger.log("<PersonalProfileEditSubmitController> New Profile :\n" + ppEdtVO);
 
 		if (!ppEdtVO.isValid()) {			
-			Logger.log("PersonalProfileVerifyController: PP EditVO is not valid, back to edit");
+			Logger.log("PersonalProfileEditSubmitController: PP EditVO is not valid, back to edit");
 			forward("/secure/jsp/personalProfileEdit.jsp", request, response);
 		} else {
 			String config = ConfigController.getConfig(ConfigController.VERYFY_CHANGES_ENABLED);
 			if ((config != null) && "yes".equalsIgnoreCase(config)) {
+				SessionUtil.setCSRFToken(session);
 				forward("/secure/jsp/personalProfileVerify.jsp", request, response);
 			} else {
 				forward("/secure/personalProfileUpdate", request, response);

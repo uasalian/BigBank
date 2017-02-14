@@ -36,6 +36,7 @@ public class PersonalProfileUpdateController extends BasicController {
 				
 		PersonalProfileBO.setPersonalProfile(ppEdtVO);
 		session.setAttribute(SessionUtil.ATTRIB_PERSONAL_PROFILE, ppEdtVO);
+		session.removeAttribute(SessionUtil.ATTRIB_EDITED_PERSONAL_PROFILE);
 		forward("/secure/personalProfile", request, response);		
 	}   
 }

@@ -30,9 +30,9 @@
 <%@ include file="header.jsp" %>
 &nbsp;&nbsp;Make changes to your Personal Profile <br /><br/> 
 <% if (!isValid) { %>
-  &nbsp;&nbsp;<b>Entries indeicated by '<font color="red">**</font>' are invalid. Please correct them</b>
+  &nbsp;&nbsp;<b>Entries indicated by '<font color="red">**</font>' are invalid. Please correct them</b>
 <% } %>
-<form method="post" name="personalProfileForm" id="personalProfileForm" action="personalProfileVerify">
+<form method="post" name="personalProfileForm" id="personalProfileForm" action="personalProfileEditSubmit">
 &nbsp;&nbsp;
 <table>
 	<tr> <td>Address : &nbsp;</td></tr>

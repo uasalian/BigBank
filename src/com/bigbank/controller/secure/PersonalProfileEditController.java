@@ -1,7 +1,6 @@
 package com.bigbank.controller.secure;
 
 import java.io.IOException;
-import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpSession;
 
 import com.bigbank.bo.PersonalProfileBO;
 import com.bigbank.controller.BasicController;
-import com.bigbank.controller.ConfigController;
 import com.bigbank.model.PersonalProfileVO;
 import com.bigbank.util.SessionUtil;
 
@@ -38,10 +36,7 @@ public class PersonalProfileEditController extends BasicController {
 			session.setAttribute(SessionUtil.ATTRIB_EDITED_PERSONAL_PROFILE, ppVO);
 		}
 	
-		if (ConfigController.isEnabled(ConfigController.SET_CSRF_TOKEN_ENABLED)) {
-			String csrfToken = UUID.randomUUID().toString();
-			session.setAttribute(SessionUtil.ATTRIB_CSRF_TOKEN, csrfToken);
-		}
+		SessionUtil.setCSRFToken(session);
 		
 		forward("/secure/jsp/personalProfileEdit.jsp", request, response);
 	}

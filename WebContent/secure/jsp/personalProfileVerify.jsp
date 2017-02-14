@@ -11,7 +11,11 @@
 	Object ppObj = session.getAttribute(SessionUtil.ATTRIB_EDITED_PERSONAL_PROFILE);
 	PersonalProfileVO ppEdtVO = (ppObj == null) ? new PersonalProfileVO() : (PersonalProfileVO) ppObj;
 	Address address = ppEdtVO.getAddress();
+
+	Object obj = session.getAttribute(SessionUtil.ATTRIB_CSRF_TOKEN);
+	String csrfToken = (obj == null) ? "" : obj.toString();
 %>
+	
 <html>
 <body>
 <%@ include file="header.jsp" %>
@@ -24,8 +28,14 @@
 	<tr><td>Phone Number: &nbsp;</td><td><%=ppEdtVO.getPhoneNbr() %> </td></tr>
 	<tr><td>Email Address: &nbsp;</td><td><%=ppEdtVO.getEmailAddres() %></td></tr>
 	<tr><td colspan=2>&nbsp;</td></tr>
-	<tr><td>&nbsp;&nbsp;&nbsp;&nbsp; <a href="/BigBank/secure/personalProfileUpdate">Update</a></td>
-	<td>&nbsp;&nbsp;&nbsp;&nbsp; <a href="/BigBank/secure/personalProfile">Discard</a></td>
+	<tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;
+	    <form method="post" name="profileVerifyForm" action="/BigBank/secure/personalProfileVerifySubmit">
+	      <button type="submit">Update</button> &nbsp;&nbsp;&nbsp;&nbsp;
+	      <button type="submit" formaction="/BigBank/secure/personalProfileEdit">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+	      <button type="submit" formaction="/BigBank/secure/personalProfileDiscard">Discard</button>
+	      <input type="hidden" name="csrfToken" value="<%=csrfToken%>" />
+	    </form>
+	   </td>
 	</tr>
 </table>
 

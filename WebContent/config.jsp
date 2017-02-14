@@ -79,7 +79,11 @@
    </tr>
    
    </table>
-	 <p style="margin-left: 100px"><input type="submit" name="submit" value="submit"/></p>
+	 <p style="margin-left: 100px">
+	 <button type="submit">Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;
+	 <button type="submit" formaction="/BigBank/config.jsp">Reload</button>
+	 
+	 </p>
 
  </form>
  
