@@ -4,6 +4,8 @@
 <%@ page import="com.bigbank.model.PersonalProfileVO"%>
 <%@ page import="com.bigbank.model.Address"%>
 <%@ page import="com.bigbank.util.SessionUtil"%>
+<%@ page import="com.bigbank.controller.ConfigController" %>
+
 <%
 	Object acctObj = session.getAttribute(SessionUtil.ATTRIB_ACCT_SUMMARY);
 	AccountSummaryVO acctVO = (acctObj == null) ? new AccountSummaryVO() : (AccountSummaryVO) acctObj;
@@ -30,10 +32,12 @@
 	<tr><td colspan=2>&nbsp;</td></tr>
 	<tr><td colspan=2>&nbsp;&nbsp;&nbsp;&nbsp;
 	    <form method="post" name="profileVerifyForm" action="/BigBank/secure/personalProfileVerifySubmit">
-	      <button type="submit">Update</button> &nbsp;&nbsp;&nbsp;&nbsp;
+<% if (ConfigController.isEnabled(ConfigController.ADD_CSRF_TOKEN_ENABLED)) { %>
+	      <input type="hidden" name="csrfToken"  id="csrfToken" value="<%=csrfToken%>" />
+<% } %>
+	      <button type="submit" name="submit" id="submit">Update</button> &nbsp;&nbsp;&nbsp;&nbsp;
 	      <button type="submit" formaction="/BigBank/secure/personalProfileEdit">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;
 	      <button type="submit" formaction="/BigBank/secure/personalProfileDiscard">Discard</button>
-	      <input type="hidden" name="csrfToken" value="<%=csrfToken%>" />
 	    </form>
 	   </td>
 	</tr>

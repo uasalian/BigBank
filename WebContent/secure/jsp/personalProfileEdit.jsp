@@ -5,6 +5,7 @@
 <%@ page import="com.bigbank.model.Address"%>
 <%@ page import="com.bigbank.util.MyEncoder" %>
 <%@ page import="com.bigbank.util.SessionUtil" %>
+<%@ page import="com.bigbank.controller.ConfigController" %>
 
 <%
 	Object acctObj = session.getAttribute(SessionUtil.ATTRIB_ACCT_SUMMARY);
@@ -33,6 +34,10 @@
   &nbsp;&nbsp;<b>Entries indicated by '<font color="red">**</font>' are invalid. Please correct them</b>
 <% } %>
 <form method="post" name="personalProfileForm" id="personalProfileForm" action="personalProfileEditSubmit">
+<% if (ConfigController.isEnabled(ConfigController.ADD_CSRF_TOKEN_ENABLED)) { %>
+	<input type="hidden" name="csrfToken" id="csrfToken" value="<%=csrfToken%>" />
+<% } %>
+
 &nbsp;&nbsp;
 <table>
 	<tr> <td>Address : &nbsp;</td></tr>
@@ -59,7 +64,6 @@
 		<input type="submit" name="submit" id="submit" value="Continue"/></td>
 	</tr>
 </table>
-	<input type="hidden" name="csrfToken" value="<%=csrfToken%>" />
 
 </form>
 

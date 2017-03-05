@@ -31,7 +31,7 @@ public class SessionUtil {
 	}
 	
 	public static boolean isCSRFTokenValid(HttpServletRequest request) {
-		if(ConfigController.isEnabled(ConfigController.CSRF_TOKEN_VERIFY_ENABLED)) {
+		if(ConfigController.isEnabled(ConfigController.VERIFY_CSRF_TOKEN_ENABLED)) {
 			HttpSession session = request.getSession();
 			Object obj = session.getAttribute(SessionUtil.ATTRIB_CSRF_TOKEN);
 			String tokenInSession = (obj == null) ? null : obj.toString();
@@ -51,5 +51,5 @@ public class SessionUtil {
 		
 		return true;
 	}
-
+	
 }

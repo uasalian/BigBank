@@ -14,9 +14,12 @@ public class ConfigController extends BasicController {
 	
 	public static final String OUTPUT_ENCODING_ENABLED = "outputEncodingEnabled";
 	public static final String VERYFY_CHANGES_ENABLED  = "verifyChangesEnabled";
+	public static final String ADD_CSRF_TOKEN_ENABLED = "addCSRFTokenEnabled";
 	public static final String SET_CSRF_TOKEN_ENABLED = "setCSRFTokenEnabled";
-	public static final String CSRF_TOKEN_VERIFY_ENABLED = "csrfTokenVerifyEnabled";
+	public static final String VERIFY_CSRF_TOKEN_ENABLED = "verifyCSRFTokenEnabled";
 	public static final String X_FRAME_OPTIONS_ENABLED = "xFrameOptionsEnabled";
+	public static final String COOKIE_HTTPONLY_ENABLED = "cookieHttpOnlyEnabled";
+	public static final String COOKIE_SECURE_ENABLED = "cookieSecureEnabled";
        
 	private static HashMap<String, String> configMap = new HashMap<String, String>();
 	
@@ -39,14 +42,23 @@ public class ConfigController extends BasicController {
 		String radioVerifyVal = request.getParameter("radio_verify");
 		configMap.put(VERYFY_CHANGES_ENABLED, radioVerifyVal);
 		
+		String radioAddCSRFTokenVal = request.getParameter("radio_add_csrf_token");
+		configMap.put(ADD_CSRF_TOKEN_ENABLED, radioAddCSRFTokenVal);
+		
 		String radioSetCSRFTokenVal = request.getParameter("radio_set_csrf_token");
 		configMap.put(SET_CSRF_TOKEN_ENABLED, radioSetCSRFTokenVal);
 		
-		String radioCSRFTokenVerifyEnabled = request.getParameter("radio_csrf_token_verify");
-		configMap.put(CSRF_TOKEN_VERIFY_ENABLED, radioCSRFTokenVerifyEnabled);
+		String radioVerifyCSRFTokenEnabled = request.getParameter("radio_verify_csrf_token");
+		configMap.put(VERIFY_CSRF_TOKEN_ENABLED, radioVerifyCSRFTokenEnabled);
 		
 		String radioXFrameOptionsEnabled = request.getParameter("radio_x_frame_options");
 		configMap.put(X_FRAME_OPTIONS_ENABLED, radioXFrameOptionsEnabled);
+		
+		String radioCookieHttpOnlyEnabled = request.getParameter("radio_cookie_httpOnly");
+		configMap.put(COOKIE_HTTPONLY_ENABLED, radioCookieHttpOnlyEnabled);
+		
+		String radioCookieSecureEnabled = request.getParameter("radio_cookie_secure");
+		configMap.put(COOKIE_SECURE_ENABLED, radioCookieSecureEnabled);
 		
 		forward("/config.jsp", request, response);
 	}

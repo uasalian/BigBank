@@ -24,10 +24,31 @@ public class PersonalProfileEditSubmitController extends BasicController {
     }
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		forward(processProfileSubmit(request, response), request, response);
+	}
+	
+	private String processProfileSubmit(HttpServletRequest request, HttpServletResponse response) {
+		if(!SessionUtil.isCSRFTokenValid(request)) return "/secure/csrfInvalid";
+		
 		HttpSession session = request.getSession();
+		PersonalProfileVO ppEdtVO = getEditedVO(request);
+		session.setAttribute(SessionUtil.ATTRIB_EDITED_PERSONAL_PROFILE, ppEdtVO);		
 		
-		if(!SessionUtil.isCSRFTokenValid(request)) forward("/secure/achome", request, response);
-		
+		if (!ppEdtVO.isValid()) {			
+			Logger.log("PersonalProfileEditSubmitController: PP EditVO is not valid, back to edit");
+			return "/secure/jsp/personalProfileEdit.jsp";
+		} else {
+			String config = ConfigController.getConfig(ConfigController.VERYFY_CHANGES_ENABLED);
+			if ((config != null) && "yes".equalsIgnoreCase(config)) {
+				SessionUtil.setCSRFToken(session);
+				return "/secure/jsp/personalProfileVerify.jsp";
+			} else {
+				return "/secure/personalProfileUpdate";
+			}
+		}
+	}
+	
+	private PersonalProfileVO getEditedVO(HttpServletRequest request) {
 		Address address = new Address();		
 		address.setStreet(request.getParameter("street"));
 		address.setCity(request.getParameter("city"));
@@ -39,21 +60,8 @@ public class PersonalProfileEditSubmitController extends BasicController {
 		ppEdtVO.setPhoneNbr(request.getParameter("phoneNbr"));
 		ppEdtVO.setEmailAddres(request.getParameter("emailAddress"));
 		
-		session.setAttribute(SessionUtil.ATTRIB_EDITED_PERSONAL_PROFILE, ppEdtVO);
-		
 		Logger.log("<PersonalProfileEditSubmitController> New Profile :\n" + ppEdtVO);
 
-		if (!ppEdtVO.isValid()) {			
-			Logger.log("PersonalProfileEditSubmitController: PP EditVO is not valid, back to edit");
-			forward("/secure/jsp/personalProfileEdit.jsp", request, response);
-		} else {
-			String config = ConfigController.getConfig(ConfigController.VERYFY_CHANGES_ENABLED);
-			if ((config != null) && "yes".equalsIgnoreCase(config)) {
-				SessionUtil.setCSRFToken(session);
-				forward("/secure/jsp/personalProfileVerify.jsp", request, response);
-			} else {
-				forward("/secure/personalProfileUpdate", request, response);
-			}
-		}
+		return ppEdtVO;
 	}
 }
