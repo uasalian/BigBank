@@ -20,7 +20,7 @@ Please enter your credentials to login:
 	</tr>
 </table>
 <br/> <br/>
-  <input type="submit" value="login" name="login" id="login" />
+  <button type="submit" name="login" id="login">login</button>
 </form>
 
 </body>

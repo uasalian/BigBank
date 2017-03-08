@@ -19,10 +19,9 @@ public class PersonalProfileVerifySubmitController2 extends BasicController {
     }
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		if(!SessionUtil.isCSRFTokenValid(request)) forward("/secure/achome", request, response);
-		
-		forward("/secure/personalProfileUpdate", request, response);
+		if(!SessionUtil.isCSRFTokenValid(request, "<PersonalProfileVerifySubmit>: ")) 
+			forward ("/secure/csrfInvalid", request, response);	
+		else forward("/secure/personalProfileUpdate", request, response);
 		
 	}
 }

@@ -28,7 +28,7 @@ public class PersonalProfileEditSubmitController extends BasicController {
 	}
 	
 	private String processProfileSubmit(HttpServletRequest request, HttpServletResponse response) {
-		if(!SessionUtil.isCSRFTokenValid(request)) return "/secure/csrfInvalid";
+		if(!SessionUtil.isCSRFTokenValid(request, "<PersonalProfileEditSubmit>: ")) return "/secure/csrfInvalid";
 		
 		HttpSession session = request.getSession();
 		PersonalProfileVO ppEdtVO = getEditedVO(request);

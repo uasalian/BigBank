@@ -30,7 +30,7 @@ public class SessionUtil {
 		}
 	}
 	
-	public static boolean isCSRFTokenValid(HttpServletRequest request) {
+	public static boolean isCSRFTokenValid(HttpServletRequest request, String methodName) {
 		if(ConfigController.isEnabled(ConfigController.VERIFY_CSRF_TOKEN_ENABLED)) {
 			HttpSession session = request.getSession();
 			Object obj = session.getAttribute(SessionUtil.ATTRIB_CSRF_TOKEN);
@@ -38,11 +38,11 @@ public class SessionUtil {
 			String tokenFromForm = request.getParameter("csrfToken");
 			
 			if ((tokenInSession != null) && tokenInSession.equals(tokenFromForm)) {
-				Logger.log("<PersonalProfileVerifyController>: CSRF token verified ...");
+				Logger.log(methodName + "CSRF token verified ...");
 				session.removeAttribute(SessionUtil.ATTRIB_CSRF_TOKEN); // remove used token
 				return true;
 			} else {
-				Logger.log("<PersonalProfileVerifyController>: CSRF token verification failed: In Session [" +
+				Logger.log(methodName + "CSRF token verification failed: In Session [" +
 					tokenInSession + "] from form [" + tokenFromForm + "]");
 				session.removeAttribute(SessionUtil.ATTRIB_EDITED_PERSONAL_PROFILE);
 				return false;
